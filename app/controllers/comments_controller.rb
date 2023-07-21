@@ -1,16 +1,32 @@
 class CommentsController < ApplicationController
+  def index
+    comments = Comment.all
+    render json: { comments: comments }
+  end
+
   def show
     comment = Comment.find(params[:id])
-    render json: comment
+
+    if comment.valid?
+      render json: comment
+    else
+      render json: { error: { message: "Comment could not be found with given id." } }
+    end
   end
 
   def create
-    comment = Comment.new(comment_params)
+    work = Work.find_by(id: comment_params[:work_id])
 
-    if comment.save
-      render json: { comment: comment }, status: :created
+    if !work
+      render json: { error: { message: "User could not be found with given id." } }
     else
-      render json: { error: { message: "Server was not able to create new Comment" } }, status: :unprocessable_entity
+      comment = Comment.new(comment_params)
+
+      if comment.save
+        render json: { comment: comment }, status: :created
+      else
+        render json: { error: { message: "Server was not able to create new Comment." } }, status: :unprocessable_entity
+      end
     end
   end
 
@@ -18,9 +34,9 @@ class CommentsController < ApplicationController
     comment = Comment.find(params[:id])
 
     if comment.update(comment_params)
-      render json: {comment: comment} status: :ok
+      render json: { comment: comment }, status: :ok
     else
-      render json: {error: { message: "Server was not able to update Comment" } }, status: :unprocessable_entity
+      render json: { error: { message: "Server was not able to update Comment." } }, status: :unprocessable_entity
     end
   end
 
@@ -28,16 +44,16 @@ class CommentsController < ApplicationController
     comment = Comment.find(params[:id])
 
     if comment
-        comment.destroy
-        render json: {comment: comment}
+      comment.destroy
+      render json: { message: "Comment was removed succesfully.", comment: comment }
     else
-        render json: { error: { message: "Comment could not be found with given id" } }
+      render json: { error: { message: "Comment could not be found with given id." } }
     end
   end
 
   private
 
   def comment_params
-    params.require(:comment).permit(:username, :content)
+    params.require(:comment).permit(:username, :content, :work_id)
   end
 end

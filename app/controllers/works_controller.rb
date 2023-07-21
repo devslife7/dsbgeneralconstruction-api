@@ -28,7 +28,7 @@ class WorksController < ApplicationController
     work = Work.find(params[:id])
 
     if work.update(work_params)
-      render json: { work: work } status: :ok
+      render json: { work: work }, status: :ok
     else
       render json: { error: { message: "Server was not able to update new Work" } }, status: :unprocessable_entity
     end
