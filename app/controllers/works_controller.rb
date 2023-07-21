@@ -10,7 +10,7 @@ class WorksController < ApplicationController
     if work.valid?
       render json: work
     else
-      render json: { error: "Task could not be found" }
+      render json: { error: { message: "Task could not be found" } }
     end
   end
 
@@ -20,7 +20,7 @@ class WorksController < ApplicationController
     if work.save
       render json: work, status: :created
     else
-      render json: { message: "Server was not able to create new Work" }, status: :unprocessable_entity
+      render json: { error: { message: "Server was not able to create new Work" } }, status: :unprocessable_entity
     end
   end
 
@@ -30,7 +30,7 @@ class WorksController < ApplicationController
     if work.update(work_params)
       render json: work
     else
-      render json: { message: "Server was not able to update new Work" }, status: :unprocessable_entity
+      render json: { error: { message: "Server was not able to update new Work" } }, status: :unprocessable_entity
     end
   end
 
@@ -42,7 +42,7 @@ class WorksController < ApplicationController
 
       render json: work
     else
-      render json: { error: "Work could not be found with given id" }
+      render json: { error: { message: "Work could not be found with given id" } }
     end
   end
 
