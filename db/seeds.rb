@@ -7,7 +7,11 @@
 #   Character.create(name: "Luke", movie: movies.first)
 
 Work.destroy_all
+Comment.destroy_all
 
-Work.create(title: "title 1", description: "description1")
+userComment = Comment.create(username: "Xavi", content: "Nice project")
+userWork = Work.create(title: "title 1", description: "description1")
+
+userWork.comments << userComment
 
 puts "Succesfull Seed!!"
