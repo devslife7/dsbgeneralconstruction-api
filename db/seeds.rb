@@ -5,3 +5,9 @@
 #
 #   movies = Movie.create([{ name: "Star Wars" }, { name: "Lord of the Rings" }])
 #   Character.create(name: "Luke", movie: movies.first)
+
+Work.destroy_all
+
+Work.create(title: "title 1", description: "description1")
+
+puts "Succesfull Seed!!"
