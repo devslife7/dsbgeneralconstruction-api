@@ -14,9 +14,35 @@ class WorksController < ApplicationController
     end
   end
 
-  #   private
+  def create
+    work = Work.new(work_params)
 
-  #   def user_params
-  #     params.require(:user).permit(:name, :email)
-  #   end
+    if work.save
+      render json: work, status: :created
+    else
+      render json: { message: "Server was not able to create new Work" }, status: :unprocessable_entity
+    end
+  end
+
+  def update
+    work = Work.find(params[:id])
+
+    if work.update(work_params)
+      render json: work
+    else
+      render json: { message: "Server was not able to update new Work" }, status: :unprocessable_entity
+    end
+  end
+
+  def destroy
+    work = Work.find(params[:id])
+    work.destroy
+    head :no_content
+  end
+
+  private
+
+  def work_params
+    params.require(:work).permit(:title, :description)
+  end
 end
