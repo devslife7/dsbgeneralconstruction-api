@@ -36,8 +36,14 @@ class WorksController < ApplicationController
 
   def destroy
     work = Work.find(params[:id])
-    work.destroy
-    head :no_content
+
+    if work
+      work.destroy
+
+      render json: work
+    else
+      render json: { error: "Work could not be found with given id" }
+    end
   end
 
   private
