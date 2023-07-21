@@ -18,7 +18,7 @@ class WorksController < ApplicationController
     work = Work.new(work_params)
 
     if work.save
-      render json: work, status: :created
+      render json: { work: work }, status: :created
     else
       render json: { error: { message: "Server was not able to create new Work" } }, status: :unprocessable_entity
     end
@@ -28,7 +28,7 @@ class WorksController < ApplicationController
     work = Work.find(params[:id])
 
     if work.update(work_params)
-      render json: work
+      render json: { work: work } status: :ok
     else
       render json: { error: { message: "Server was not able to update new Work" } }, status: :unprocessable_entity
     end

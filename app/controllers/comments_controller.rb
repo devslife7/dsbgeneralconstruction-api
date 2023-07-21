@@ -8,7 +8,7 @@ class CommentsController < ApplicationController
     comment = Comment.new(comment_params)
 
     if comment.save
-      render json: comment, status: :created
+      render json: { comment: comment }, status: :created
     else
       render json: { error: { message: "Server was not able to create new Comment" } }, status: :unprocessable_entity
     end
@@ -18,16 +18,21 @@ class CommentsController < ApplicationController
     comment = Comment.find(params[:id])
 
     if comment.update(comment_params)
-      render json: comment
+      render json: {comment: comment} status: :ok
     else
-      render json: { error: { message: "Server was not able to update Comment" } }, status: :unprocessable_entity
+      render json: {error: { message: "Server was not able to update Comment" } }, status: :unprocessable_entity
     end
   end
 
   def destroy
     comment = Comment.find(params[:id])
-    comment.destroy
-    head :no_content
+
+    if comment
+        comment.destroy
+        render json: {comment: comment}
+    else
+        render json: { error: { message: "Comment could not be found with given id" } }
+    end
   end
 
   private
