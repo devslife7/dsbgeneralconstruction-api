@@ -46,9 +46,25 @@ class WorksController < ApplicationController
     end
   end
 
+  # uploads the avatar to User
+  def upload_avatar
+    work = Work.find_by(id: params[:id])
+
+    if work
+      work.avatar.attach(params["avatar"])
+
+      photo = url_for(work.avatar)
+      work.update(profile_img: photo)
+
+      render json: work
+    else
+      render json: { message: "user could not be found" }
+    end
+  end
+
   private
 
   def work_params
-    params.require(:work).permit(:title, :description, files: [])
+    params.require(:work).permit(:title, :description, :avatar)
   end
 end
