@@ -51,11 +51,20 @@ class WorksController < ApplicationController
     work = Work.find_by(id: params[:id])
 
     if work
-      work.avatar.attach(params["images"])
+      work.images.purge
+      work.images.attach(params["images"])
 
-      debugger
-      photo = url_for(work.avatar)
-      work.update(profile_img: photo)
+      imagesArray = params["images"]
+
+      imageList = []
+
+      work.images.map do |image|
+        # debugger
+        imageList << url_for(image)
+      end
+
+      # photo = url_for(work.avatar)
+      work.update(image_urls: imageList)
 
       render json: work
     else
