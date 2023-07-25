@@ -51,8 +51,9 @@ class WorksController < ApplicationController
     work = Work.find_by(id: params[:id])
 
     if work
-      work.avatar.attach(params["avatar"])
+      work.avatar.attach(params["images"])
 
+      debugger
       photo = url_for(work.avatar)
       work.update(profile_img: photo)
 
@@ -65,6 +66,6 @@ class WorksController < ApplicationController
   private
 
   def work_params
-    params.require(:work).permit(:title, :description, :avatar)
+    params.require(:work).permit(:title, :description, :images[])
   end
 end
