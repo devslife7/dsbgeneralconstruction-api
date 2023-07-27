@@ -73,7 +73,7 @@ class WorksController < ApplicationController
 
       work.update(image_urls: imageList)
 
-      render json: work
+      render json: { work: work }
     else
       render json: { message: "user could not be found" }
     end

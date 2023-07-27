@@ -7,5 +7,5 @@ Rails.application.routes.draw do
   # Defines the root path route ("/")
   # root "articles#index"
 
-  patch "/uploadAvatar/:id", to: "works#upload_files"
+  patch "/upload_files/:id", to: "works#upload_files"
 end
