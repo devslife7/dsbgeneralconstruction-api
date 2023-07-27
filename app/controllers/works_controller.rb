@@ -50,7 +50,7 @@ class WorksController < ApplicationController
     if work
       work.destroy
 
-      render json: work
+      render json: { work: work }
     else
       render json: { error: { message: "Work could not be found with given id" } }
     end
