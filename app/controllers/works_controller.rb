@@ -63,12 +63,14 @@ class WorksController < ApplicationController
     if work
       # work.images.purge
 
+      # debugger
+
       work.images.attach(params["images"])
 
       imageList = []
 
       work.images.map do |image|
-        imageList << url_for(image)
+        imageList << image.url
       end
 
       work.update(image_urls: imageList)
