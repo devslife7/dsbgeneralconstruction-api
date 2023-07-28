@@ -69,6 +69,8 @@ class WorksController < ApplicationController
 
       imageList = []
 
+      # debugger
+
       work.images.map do |image|
         imageList << image.url
       end
