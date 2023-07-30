@@ -8,7 +8,7 @@ class WorksController < ApplicationController
     work = Work.find(params[:id])
 
     if work.valid?
-      render json: work
+      render json: work, include: [:comments]
     else
       render json: { error: { message: "Task could not be found" } }
     end
