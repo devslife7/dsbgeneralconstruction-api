@@ -69,7 +69,7 @@ class WorksController < ApplicationController
 
       imageList = []
 
-      debugger
+      # debugger
 
       work.images.map do |image|
         imageList << url_for(image)
