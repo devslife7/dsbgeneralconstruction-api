@@ -69,10 +69,10 @@ class WorksController < ApplicationController
 
       imageList = []
 
-      # debugger
+      debugger
 
       work.images.map do |image|
-        imageList << image.url
+        imageList << url_for(image)
       end
 
       work.update(image_urls: imageList)
