@@ -8,4 +8,5 @@ Rails.application.routes.draw do
   # root "articles#index"
 
   patch "/upload_files/:id", to: "works#upload_files"
+  put "/works/ratings/:id", to: "works#update_rating"
 end

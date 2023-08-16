@@ -37,10 +37,26 @@ class WorksController < ApplicationController
   def update
     work = Work.find(params[:id])
 
-    if work.update(work_params)
+    debugger
+
+    if work.update(update_work_params)
       render json: { work: work }, status: :ok
     else
       render json: { error: { message: "Server was not able to update new Work" } }, status: :unprocessable_entity
+    end
+  end
+
+  def update_rating
+    work = Work.find(params[:id])
+
+    if work
+      ratingList = []
+      ratingList = work.ratings.push(params[:rating])
+
+      work.update(ratings: ratingList)
+      render json: { work: work }, status: :ok
+    else
+      render json: { error: { message: "Server was not able to find Work" } }, status: :unprocessable_entity
     end
   end
 
@@ -85,6 +101,6 @@ class WorksController < ApplicationController
   end
 
   def update_work_params
-    params.require(:work).permit(:title, :description, :images[])
+    params.require(:work).permit(:title, :description, :rating)
   end
 end

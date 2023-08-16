@@ -23,7 +23,6 @@ class CommentsController < ApplicationController
       comment = Comment.new(comment_params)
 
       if comment.save
-        # debugger
         render json: work, include: [:comments], status: :created
       else
         render json: { error: { message: "Server was not able to create new Comment." } }, status: :unprocessable_entity
