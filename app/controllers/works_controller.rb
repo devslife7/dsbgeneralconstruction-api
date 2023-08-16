@@ -63,20 +63,15 @@ class WorksController < ApplicationController
     if work
       # work.images.purge
 
-      # debugger
-
       work.images.attach(params["images"])
 
       imageList = []
-
-      # debugger
 
       work.images.map do |image|
         imageList << url_for(image)
       end
 
       work.update(image_urls: imageList)
-
       render json: { work: work }
     else
       render json: { message: "user could not be found" }
