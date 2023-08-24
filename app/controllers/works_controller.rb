@@ -14,26 +14,6 @@ class WorksController < ApplicationController
     end
   end
 
-  def create
-    # debugger
-    work = Work.new(work_params)
-
-    if work.save
-      # work.images.attach(params["images"])
-
-      # imageList = []
-      # work.images.map do |image|
-      #   imageList << url_for(image)
-      # end
-
-      # work.update(image_urls: imageList)
-
-      render json: { work: work }, status: :created
-    else
-      render json: { error: { message: "Server was not able to create new Work" } }, status: :unprocessable_entity
-    end
-  end
-
   def update
     work = Work.find(params[:id])
 
@@ -72,14 +52,32 @@ class WorksController < ApplicationController
     end
   end
 
-  # uploads the avatar to User
+  def create
+    work = Work.new(title: params[:title], description: params[:description])
+    debugger
+
+    if work.save
+      work.images.attach(params["images"])
+
+      imageList = []
+
+      work.images.map do |image|
+        imageList << url_for(image)
+      end
+
+      work.update(image_urls: imageList)
+      render json: { work: work }, status: :created
+    else
+      render json: { error: { message: "Server was not able to create new Work" } }, status: :unprocessable_entity
+    end
+  end
+
+  # uploads the avatar to Work
   def upload_files
     work = Work.find_by(id: params[:id])
-
     if work
       # work.images.purge
-
-      work.images.attach(params["images"])
+      work.images.attach(params[:images])
 
       imageList = []
 
@@ -95,10 +93,6 @@ class WorksController < ApplicationController
   end
 
   private
-
-  def work_params
-    params.require(:work).permit(:title, :description)
-  end
 
   def update_work_params
     params.require(:work).permit(:title, :description, :rating)
