@@ -17,7 +17,7 @@ class WorksController < ApplicationController
   def update
     work = Work.find(params[:id])
 
-    debugger
+    # debugger
 
     if work.update(update_work_params)
       render json: { work: work }, status: :ok
@@ -54,8 +54,6 @@ class WorksController < ApplicationController
 
   def create
     work = Work.new(title: params[:title], description: params[:description])
-    debugger
-
     if work.save
       work.images.attach(params["images"])
 
