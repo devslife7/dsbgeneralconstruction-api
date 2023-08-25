@@ -1,14 +1,14 @@
 class WorksController < ApplicationController
   def index
     workList = Work.all
-    render json: workList
+    render json: workList, except: [:created_at, :updated_at]
   end
 
   def show
     work = Work.find(params[:id])
 
     if work.valid?
-      render json: work, include: [:comments]
+      render json: work, except: [:created_at, :updated_at], include: [:comments]
     else
       render json: { error: { message: "Task could not be found" } }
     end
@@ -16,8 +16,6 @@ class WorksController < ApplicationController
 
   def update
     work = Work.find(params[:id])
-
-    # debugger
 
     if work.update(update_work_params)
       render json: { work: work }, status: :ok
