@@ -1,7 +1,7 @@
 class WorksController < ApplicationController
   def index
     workList = Work.all
-    render json: workList, except: [:created_at, :updated_at]
+    render json: workList, include: [:comments], except: [:created_at, :updated_at]
   end
 
   def show
